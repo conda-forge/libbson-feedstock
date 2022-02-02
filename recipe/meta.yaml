@@ -1,5 +1,5 @@
 {% set name = "libbson" %}
-{% set version = "1.20.1" %}
+{% set version = "1.21.0" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-c-driver/releases/download/{{ version }}/mongo-c-driver-{{ version }}.tar.gz
-  sha256: c2e17ed23dc6aae72c8da8a81ad34957c35c270f7b56349c107865afeaf10d65
+  sha256: 840ff79480070f98870743fbb332e2c10dd021b6b9c952d08010efdda4d70ee4
 
 build:
   number: 0
