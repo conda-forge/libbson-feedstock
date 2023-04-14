@@ -1,11 +1,11 @@
-About libbson
-=============
+About libbson-feedstock
+=======================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libbson-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/mongodb/mongo-c-driver
 
 Package license: Apache-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libbson-feedstock/blob/main/LICENSE.txt)
 
 Summary: A library providing useful routines related to building, parsing, and iterating BSON documents.
 
@@ -59,6 +59,13 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=13619&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libbson-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=13619&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/libbson-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
