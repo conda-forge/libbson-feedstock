@@ -1,5 +1,5 @@
 {% set name = "libbson" %}
-{% set version = "1.23.2" %}
+{% set version = "1.24.3" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-c-driver/releases/download/{{ version }}/mongo-c-driver-{{ version }}.tar.gz
-  sha256: 123c358827eea07cd76a31c40281bb1c81b6744f6587c96d0cf217be8b1234e3
+  sha256: cc0ad1006447ded21bbefecf57d6fef61afe6f0d56a4e28da73805d50fdb81b5
   patches:
     - fix-malloc-osx.patch  # [osx]
 
