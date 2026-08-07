@@ -8,10 +8,11 @@ cd build
 cmake ^
     -G "Ninja" ^
     -DENABLE_MONGOC=OFF ^
-    -DENABLE_STATIC=DONT_INSTALL ^
+    -DENABLE_STATIC=OFF ^
+    -DENABLE_SHARED=ON ^
+    -DBUILD_SHARED_LIBS=ON ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_BUILD_TYPE=Release ^
-    -DBUILD_SHARED_LIBS=ON ^
     %SRC_DIR%
 if errorlevel 1 exit 1
 
