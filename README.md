@@ -9,6 +9,10 @@ Package license: Apache-2.0
 
 Summary: A library providing useful routines related to building, parsing, and iterating BSON documents.
 
+Development: https://github.com/mongodb/mongo-c-driver
+
+Documentation: https://www.mongoc.org/libbson/current/
+
 Current build status
 ====================
 
