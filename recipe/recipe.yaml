@@ -1,0 +1,71 @@
+context:
+  name: libbson
+  version: "2.5.10"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/mongodb/mongo-c-driver/releases/download/${{ version }}/mongo-c-driver-${{ version }}.tar.gz
+  sha256: 4ffc91ffc7f9811446bbfa467ca3f89d4372f72c8a2c6a0830631a6da09d14d6
+  patches:
+    # link librt/libm by name instead of by absolute path into the build sysroot,
+    # which otherwise leaks into the exported CMake targets and bson2.pc
+    - relocatable-platform-libs.patch
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib('c') }}
+    - cmake
+    - ninja
+  run_exports:
+    # libbson 2.x installs libbson2 with SOVERSION 2 and is ABI-stable within the
+    # major version, so pin on the major only.
+    - ${{ pin_subpackage(name, upper_bound='x') }}
+
+tests:
+  - package_contents:
+      include:
+        - bson-${{ version }}/bson/bson.h
+      files:
+        - if: unix
+          then:
+            - lib/pkgconfig/bson2.pc
+            - lib/libbson2${{ ".so" if linux else ".dylib" }}
+            - lib/cmake/bson-${{ version }}/bsonConfig.cmake
+          else:
+            - Library/lib/bson2.dll.lib
+            - Library/bin/bson2.dll
+            - Library/lib/cmake/bson-${{ version }}/bsonConfig.cmake
+  - if: unix
+    then:
+      script:
+        - pkg-config --exists "bson2 = ${{ version }}"
+        - test ! -f $PREFIX/lib/libbson2.a
+        # no paths into the build environment may leak into the installed metadata
+        - "! grep -rE '_build_env|build_env/|/sysroot/' $PREFIX/lib/cmake/bson-${{ version }} $PREFIX/lib/pkgconfig/bson2.pc"
+      requirements:
+        run:
+          - pkgconf
+
+about:
+  homepage: https://github.com/mongodb/mongo-c-driver
+  repository: https://github.com/mongodb/mongo-c-driver
+  documentation: https://www.mongoc.org/libbson/current/
+  license: Apache-2.0
+  license_file:
+    - COPYING
+    - THIRD_PARTY_NOTICES
+  summary: A library providing useful routines related to building, parsing, and iterating BSON documents.
+
+extra:
+  recipe-maintainers:
+    - aclark4life
+    - blink1073
+    - caseyclements
