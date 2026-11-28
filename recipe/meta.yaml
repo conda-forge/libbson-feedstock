@@ -8,9 +8,13 @@ package:
 source:
   url: https://github.com/mongodb/mongo-c-driver/releases/download/{{ version }}/mongo-c-driver-{{ version }}.tar.gz
   sha256: 4ffc91ffc7f9811446bbfa467ca3f89d4372f72c8a2c6a0830631a6da09d14d6
+  patches:
+    # link librt/libm by name instead of by absolute path into the build sysroot,
+    # which otherwise leaks into the exported CMake targets and bson2.pc
+    - relocatable-platform-libs.patch
 
 build:
-  number: 0
+  number: 1
   # libbson 2.x installs libbson2 with SOVERSION 2 and is ABI-stable within the
   # major version, so pin on the major only.
   run_exports:
@@ -31,6 +35,7 @@ test:
     - test -f ${PREFIX}/lib/libbson2${SHLIB_EXT}                  # [unix]
     - test ! -f ${PREFIX}/lib/libbson2.a                          # [unix]
     - pkg-config --exists "bson2 >= {{ version }}"                # [unix]
+    - "! grep -rE '_build_env|/sysroot/' ${PREFIX}/lib/cmake/bson-{{ version }} ${PREFIX}/lib/pkgconfig/bson2.pc"  # [unix]
     - if not exist %LIBRARY_INC%\bson-{{ version }}\bson\bson.h (exit 1)  # [win]
     - if not exist %LIBRARY_LIB%\bson2.dll.lib (exit 1)                   # [win]
     - if not exist %LIBRARY_BIN%\bson2.dll (exit 1)                       # [win]

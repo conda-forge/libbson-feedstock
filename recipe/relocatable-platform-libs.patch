@@ -1,0 +1,27 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -213,12 +213,12 @@
+ # librt needed on linux for clock_gettime
+ find_library(RT_LIBRARY rt PATHS /usr/lib32)
+ if(RT_LIBRARY)
+-   mongo_platform_link_libraries(${RT_LIBRARY})
++   # Link by name: an absolute path into the build sysroot is not relocatable
++   mongo_platform_link_libraries(rt)
+    # Set required libraries for CHECK_FUNCTION_EXISTS
+    list(APPEND CMAKE_REQUIRED_LIBRARIES "${RT_LIBRARY}")
+    # Export the rt linkage as a pkg-config property:
+-   get_filename_component(rt_dir "${RT_LIBRARY}" DIRECTORY)
+-   set_property(DIRECTORY APPEND PROPERTY pkg_config_LIBS "-L${rt_dir}" -lrt)
++   set_property(DIRECTORY APPEND PROPERTY pkg_config_LIBS -lrt)
+ endif()
+ 
+ # On macOS Big Sur, libm resolves to the SDK's tbd file, like:
+@@ -229,7 +229,7 @@
+ if(NOT APPLE)
+    find_library(M_LIBRARY m)
+    if(M_LIBRARY)
+-      mongo_platform_link_libraries(${M_LIBRARY})
++      mongo_platform_link_libraries(m)
+    endif()
+ endif()
+ 
